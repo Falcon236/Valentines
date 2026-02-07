@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Bubu 💗</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #fdecef, #f6f0ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a4a6e;
+      text-align: center;
+    }
+
+    .card {
+      max-width: 320px;
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      min-height: 80px;
+    }
+
+    .heart {
+      font-size: 60px;
+      cursor: pointer;
+      animation: float 3s ease-in-out infinite;
+      margin: 20px 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    button {
+      border: none;
+      background: #f4b6c2;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 24px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background: #f1a7b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1 id="title">Hey bubu 🌸</h1>
+    <p id="text">From your dudu</p>
+
+    <div class="heart" id="heart">💗</div>
+
+    <button id="button" style="display:none;">Yes 💖</button>
+  </div>
+
+  <script>
+    const messages = [
+      "Long distance is hard…",
+      "but somehow you still feel close.",
+      "I love the way you say my name.",
+      "I love that dudu and bubu is our thing.",
+      "I love you in the quiet moments.",
+      "and in the loud ones too.",
+      "I just wanted you to feel this."
+    ];
+
+    let index = 0;
+
+    const text = document.getElementById("text");
+    const heart = document.getElementById("heart");
+    const button = document.getElementById("button");
+    const title = document.getElementById("title");
+
+    heart.addEventListener("click", () => {
+      if (index < messages.length) {
+        text.textContent = messages[index];
+        index++;
+      } else {
+        heart.style.display = "none";
+        title.textContent = "So bubu…";
+        text.innerHTML = "will you be my Valentine? 💌";
+        button.style.display = "inline-block";
+      }
+    });
+
+    button.addEventListener("click", () => {
+      title.textContent = "Always yours 💕";
+      text.textContent = "— dudu";
+      button.style.display = "none";
+    });
+  </script>
+</body>
+</html>
