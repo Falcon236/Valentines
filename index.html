@@ -16,30 +16,56 @@
       justify-content: center;
       color: #5a4a6e;
       text-align: center;
+      overflow: hidden;
     }
 
     .card {
       max-width: 320px;
       padding: 24px;
+      z-index: 2;
     }
 
     h1 {
       font-size: 22px;
       font-weight: 500;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     p {
       font-size: 18px;
       line-height: 1.5;
-      min-height: 80px;
+      min-height: 70px;
+      transition: opacity 0.3s ease;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e5d7f2;
+    }
+
+    .dot.active {
+      background: #cfa4d8;
     }
 
     .heart {
-      font-size: 60px;
+      font-size: 64px;
       cursor: pointer;
+      margin: 18px 0;
       animation: float 3s ease-in-out infinite;
-      margin: 20px 0;
+      transition: transform 0.2s ease;
+    }
+
+    .heart:active {
+      transform: scale(1.15);
     }
 
     @keyframes float {
@@ -52,27 +78,57 @@
       border: none;
       background: #f4b6c2;
       color: white;
-      padding: 12px 24px;
+      padding: 12px 22px;
       font-size: 16px;
-      border-radius: 24px;
+      border-radius: 22px;
       cursor: pointer;
       box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      margin: 6px;
     }
 
-    button:hover {
-      background: #f1a7b8;
+    .no {
+      background: #d8c7e8;
+      color: #5a4a6e;
+      position: relative;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 20px;
+      animation: rise 4s linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="card">
+    <div class="progress" id="progress"></div>
+
     <h1 id="title">Hey bubu 🌸</h1>
     <p id="text">From your dudu</p>
 
     <div class="heart" id="heart">💗</div>
 
-    <button id="button" style="display:none;">Yes 💖</button>
+    <div id="buttons" class="hidden">
+      <button id="yes">Yes 💖</button>
+      <button id="no" class="no">No 🙃</button>
+    </div>
   </div>
 
   <script>
@@ -86,30 +142,65 @@
       "I just wanted you to feel this."
     ];
 
-    let index = 0;
-
     const text = document.getElementById("text");
     const heart = document.getElementById("heart");
-    const button = document.getElementById("button");
     const title = document.getElementById("title");
+    const buttons = document.getElementById("buttons");
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const progress = document.getElementById("progress");
+
+    let index = 0;
+
+    messages.forEach((_, i) => {
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      progress.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll(".dot");
 
     heart.addEventListener("click", () => {
       if (index < messages.length) {
         text.textContent = messages[index];
+        dots[index].classList.add("active");
         index++;
+        spawnHeart();
       } else {
-        heart.style.display = "none";
+        heart.classList.add("hidden");
         title.textContent = "So bubu…";
-        text.innerHTML = "will you be my Valentine? 💌";
-        button.style.display = "inline-block";
+        text.textContent = "will you be my Valentine? 💌";
+        buttons.classList.remove("hidden");
       }
     });
 
-    button.addEventListener("click", () => {
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*20-10}px)`;
+    });
+
+    yesBtn.addEventListener("click", () => {
       title.textContent = "Always yours 💕";
       text.textContent = "— dudu";
-      button.style.display = "none";
+      buttons.classList.add("hidden");
+      showerHearts();
     });
+
+    function spawnHeart() {
+      const h = document.createElement("div");
+      h.className = "floating-heart";
+      h.textContent = "💗";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.bottom = "-20px";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 4000);
+    }
+
+    function showerHearts() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(spawnHeart, i * 150);
+      }
+    }
   </script>
 </body>
 </html>
+
